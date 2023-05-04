@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DB_SMPModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TB_CAT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CAT_Name" Type="nchar" MaxLength="50" />
+          <Property Name="CAT_num" Type="image" />
+        </EntityType>
+        <EntityType Name="TB_supp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="supp_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="supp_phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="supp_email" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TB_Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="User_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="User_pass" Type="nvarchar" MaxLength="50" />
+          <Property Name="User_Roll" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityContainer Name="DB_SMPModelStoreContainer">
+          <EntitySet Name="TB_CAT" EntityType="Self.TB_CAT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TB_supp" EntityType="Self.TB_supp" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TB_Users" EntityType="Self.TB_Users" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DB_SMPModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TB_CAT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CAT_Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="CAT_Cover" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="CAT_num" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Tb_pur" Relationship="DB_SMPModel.FK_Tb_pur_Tb_pur" FromRole="TB_CAT" ToRole="Tb_pur" />
+        </EntityType>
+        <EntityContainer Name="DB_SMPEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TB_CAT" EntityType="Self.TB_CAT" />
+          <EntitySet Name="TB_supp" EntityType="DB_SMPModel.TB_supp" />
+          <EntitySet Name="Tb_pur" EntityType="DB_SMPModel.Tb_pur" />
+          <AssociationSet Name="FK_Tb_pur_Tb_pur" Association="DB_SMPModel.FK_Tb_pur_Tb_pur">
+            <End Role="TB_CAT" EntitySet="TB_CAT" />
+            <End Role="Tb_pur" EntitySet="Tb_pur" />
+          </AssociationSet>
+          <EntitySet Name="TB_Users" EntityType="DB_SMPModel.TB_Users" />
+        </EntityContainer>
+        <EntityType Name="TB_supp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="supp_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="supp_phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="supp_email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Tb_pur">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pur_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="pur_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="pur_Buy" Type="Double" />
+          <Property Name="pur_sell" Type="Double" />
+          <Property Name="pur_Qu" Type="Double" />
+          <Property Name="pur_Tbuy" Type="Double" />
+          <Property Name="cat_id" Type="Int32" />
+          <NavigationProperty Name="TB_CAT" Relationship="DB_SMPModel.FK_Tb_pur_Tb_pur" FromRole="Tb_pur" ToRole="TB_CAT" />
+          </EntityType>
+        <Association Name="FK_Tb_pur_Tb_pur">
+          <End Type="DB_SMPModel.TB_CAT" Role="TB_CAT" Multiplicity="0..1" />
+          <End Type="DB_SMPModel.Tb_pur" Role="Tb_pur" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TB_CAT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tb_pur">
+              <PropertyRef Name="cat_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TB_Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="User_pass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="User_Roll" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DB_SMPModelStoreContainer" CdmEntityContainer="DB_SMPEntities">
+          <EntitySetMapping Name="TB_CAT">
+            <EntityTypeMapping TypeName="DB_SMPModel.TB_CAT">
+              <MappingFragment StoreEntitySet="TB_CAT">
+                <ScalarProperty Name="CAT_num" ColumnName="CAT_num" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CAT_Name" ColumnName="CAT_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_supp">
+            <EntityTypeMapping TypeName="DB_SMPModel.TB_supp">
+              <MappingFragment StoreEntitySet="TB_supp">
+                <ScalarProperty Name="supp_email" ColumnName="supp_email" />
+                <ScalarProperty Name="supp_phone" ColumnName="supp_phone" />
+                <ScalarProperty Name="supp_name" ColumnName="supp_name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TB_Users">
+            <EntityTypeMapping TypeName="DB_SMPModel.TB_Users">
+              <MappingFragment StoreEntitySet="TB_Users">
+                <ScalarProperty Name="User_Roll" ColumnName="User_Roll" />
+                <ScalarProperty Name="User_pass" ColumnName="User_pass" />
+                <ScalarProperty Name="User_Name" ColumnName="User_Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
